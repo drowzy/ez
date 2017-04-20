@@ -1,0 +1,4 @@
+true: package(core)
+true: bin_annot
+true: linkpkg
+true: thread
