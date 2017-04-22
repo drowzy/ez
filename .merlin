@@ -1,3 +1,5 @@
 PKG core
+PKG menhirLib
+
 S src
 B _build/src

@@ -1,4 +1,5 @@
 true: package(core)
+true: use_menhir
 true: bin_annot
 true: linkpkg
 true: thread

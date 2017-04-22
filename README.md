@@ -1,6 +1,5 @@
-# Ocaml EZ
-
-Boilerplate for simple `Ocaml` projects using `Core.Std`.
+# RQL
+A language for simpletons
 
 ## Includes
 * a `.merlin` file for completion, error reporting, type display
