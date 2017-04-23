@@ -1,6 +1,7 @@
-# RQL
+# RQL - Retard Query Language
 A language for simpletons
 
-## Includes
-* a `.merlin` file for completion, error reporting, type display
-* `Makefile` using `ocamlbuild` to compile the `src` folder.
+## Dependencies
+## Building
+## Syntax
+## Compiler backends
