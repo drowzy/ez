@@ -1,6 +1,6 @@
 #directory "_build/src";;
 #load "lexer.cmo";;
 #load "parser.cmo";;
-#load "main.cmo";;
+#load "rql.cmo";;
 open Ast
-open Main
+open Rql

@@ -28,7 +28,8 @@ open Ast
 %token LPAREN
 %token RPAREN
 
-%token TRUE FALSE
+%token TRUE
+%token FALSE
 %token EXCLAIMATION
 %token EQ
 %token LT
@@ -134,11 +135,10 @@ expr:
 
   | TRUE { Bool true }
   | FALSE { Bool false}
-
+  | LPAREN expr RPAREN { $2 }
   | EXCLAIMATION expr { Not ($2) }
   | expr AND expr { And ($1, $3) }
   | expr OR expr { Or ($1, $3) }
-
   | expr EQ expr { EQ ($1, $3) }
   | expr LT expr { LT ($1, $3) }
   | expr LTEQ expr { LTEQ ($1, $3) }

@@ -7,16 +7,16 @@ clean:
 			$(OCB) -clean
 
 native: 	sanity
-			$(OCB) main.native
+			$(OCB) rql.native
 
 byte:		sanity
-			$(OCB) main.byte
+			$(OCB) rql.byte
 
 profile: 	sanity
-			$(OCB) -tag profile main.native
+			$(OCB) -tag profile rql.native
 
 debug: 		sanity
-			$(OCB) -tag debug main.byte
+			$(OCB) -tag debug rql.byte
 
 sanity:
 			ocamlfind query core
