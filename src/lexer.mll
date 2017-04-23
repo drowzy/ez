@@ -10,41 +10,49 @@ open Parser
    that will be used later in the definition.  Each identifier is
    a *regular expression*.  We won't go into details on how regular
    expressions work.
-   
-   Below, we define regular expressions for 
+
+   Below, we define regular expressions for
      - whitespace (spaces and tabs),
      - digits (0 through 9)
      - integers (nonempty sequences of digits, optionally preceded by a minus sign)
      - letters (a through z, and A through Z), and
      - identifiers (nonempty sequences of letters).
-     
-   FYI, these aren't exactly the same as the OCaml definitions of integers and 
+
+   FYI, these aren't exactly the same as the OCaml definitions of integers and
    identifiers. *)
 
 let white = [' ' '\t']+
 let digit = ['0'-'9']
 let int = '-'? digit+
+let float = int '.' ['0'-'9'] ['0'-'9']*
 let letter = ['a'-'z' 'A'-'Z']
 let id = letter+
 
 (* The final section of the lexer definition defines how to parse a character
-   stream into a token stream.  Each of the rules below has the form 
+   stream into a token stream.  Each of the rules below has the form
      | regexp { action }
-   If the lexer sees the regular expression [regexp], it produces the token 
+   If the lexer sees the regular expression [regexp], it produces the token
    specified by the [action].  We won't go into details on how the actions
    work.  *)
 
-rule read = 
+rule read =
   parse
   | white { read lexbuf }
-  | "+"   { PLUS }
   | "("   { LPAREN }
   | ")"   { RPAREN }
-  | "let" { LET }
-  | "="   { EQUALS }
-  | "in"  { IN }
+  | "true" { TRUE }
+  | "false" { FALSE }
+  | "and" { AND }
+  | "or" { OR }
+  | "!" { EXCLAIMATION }
+  | "==" { EQ }
+  | "<"  { LT }
+  | "<=" { LTEQ }
+  | ">"  { GT }
+  | ">=" { GTEQ }
   | id    { ID (Lexing.lexeme lexbuf) }
   | int   { INT (int_of_string (Lexing.lexeme lexbuf)) }
+  | float { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
   | eof   { EOF }
-	
+
 (* And that's the end of the lexer definition. *)

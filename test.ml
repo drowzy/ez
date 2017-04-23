@@ -4,4 +4,3 @@
 #load "main.cmo";;
 open Ast
 open Main
-let _ = run_tests();;
