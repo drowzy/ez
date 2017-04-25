@@ -1,4 +1,5 @@
 PKG core
+PKG yojson
 PKG menhirLib
 
 S src
