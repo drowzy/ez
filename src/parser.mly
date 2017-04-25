@@ -54,10 +54,10 @@ open Ast
 
 %left AND
 %left OR
-%left GT
-%left LT
-%left LTEQ
-%left GTEQ
+
+%nonassoc EQ
+
+%nonassoc GT LT LTEQ GTEQ
 %left EXCLAIMATION
 
 (* After declaring associativity and precedence, we need to declare what
