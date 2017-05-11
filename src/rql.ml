@@ -1,8 +1,5 @@
 open Ast
-open Compiler
-(***********************************************************************)
-(* Everything above this is essentially the same as we saw in lecture. *)
-(***********************************************************************)
+open Elastic_compiler
 
 (* Parse a string into an ast *)
 let parse s =

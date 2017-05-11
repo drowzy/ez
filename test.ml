@@ -3,7 +3,7 @@
 #load "lexer.cmo";;
 #load "parser.cmo";;
 #load "rql.cmo";;
-#load "compiler.cmo";;
+#load "elastic_compiler.cmo";;
 open Ast
 open Rql
-open Compiler
+open Elastic_compiler

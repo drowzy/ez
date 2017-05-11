@@ -1,11 +1,4 @@
-(* The type of the abstract syntax tree (AST). *)
-(* type value = *)
-(*   | Bool of Bool *)
-(*   | Int of int *)
-(*   | Float of float *)
-(*   | String of string *)
-(*   | Var of string *)
-
+(* AST *)
 type expr =
   | Var of string
   | Bool of bool
