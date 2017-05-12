@@ -1,26 +1,13 @@
 open Core.Std
-open Ast
-open Elastic_compiler
 
 let get_inchan = function
   | "-" -> In_channel.stdin
   | filename -> In_channel.create ~binary: true filename
-(* Parse a string into an ast *)
-let parse s =
-  let lexbuf = Lexing.from_string s in
-  let ast = Parser.prog Lexer.read lexbuf in
-  ast
-
-let parse_stream ch =
-  let lexbuf = Lexing.from_channel ch in
-  let ast = Parser.prog Lexer.read lexbuf in
-  ast
 
 (* compile ast to elastic json ast *)
-
 let compile filename =
   get_inchan filename
-  |> parse_stream
+  |> Rql_parser.from_channel
   |> Elastic_compiler.compile
 
 let cmd =

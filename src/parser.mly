@@ -15,6 +15,7 @@ open Ast
 %token FALSE
 %token EXCLAIMATION
 %token EQ
+%token NEQ
 %token LT
 %token GT
 %token LTEQ
@@ -28,6 +29,7 @@ open Ast
 %left OR
 
 %nonassoc EQ
+%nonassoc NEQ
 
 %nonassoc GT LT LTEQ GTEQ
 %left EXCLAIMATION
@@ -54,6 +56,7 @@ expr:
   | expr AND expr { And ($1, $3) }
   | expr OR expr { Or ($1, $3) }
   | expr EQ expr { EQ ($1, $3) }
+  | expr NEQ expr { Not(EQ ($1, $3)) }
   | expr LT expr { LT ($1, $3) }
   | expr LTEQ expr { LTEQ ($1, $3) }
   | expr GT expr { GT ($1, $3) }

@@ -30,6 +30,7 @@ rule read =
   | '"' { read_string (Buffer.create 17) lexbuf }
   | '!' { EXCLAIMATION }
   | "==" { EQ }
+  | "!=" { NEQ }
   | '<'  { LT }
   | "<=" { LTEQ }
   | '>'  { GT }
