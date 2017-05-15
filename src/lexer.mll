@@ -29,6 +29,7 @@ rule read =
   | "or" { OR }
   | '"' { read_string (Buffer.create 17) lexbuf }
   | '!' { EXCLAIMATION }
+  | '.' { PERIOD }
   | "==" { EQ }
   | "!=" { NEQ }
   | '<'  { LT }

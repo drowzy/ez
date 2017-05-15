@@ -4,6 +4,8 @@ open Ast
 let bool_expr json =
   `Assoc[("bool", json)]
 
+let nested path query=
+`Assoc[("nested", `Assoc[("path", path); ("query", query)])]
 let with_query json =
   `Assoc[("query", json)]
 
@@ -14,7 +16,8 @@ let rec compile = function
   | Bool b -> `Bool b
   | And(el, er) -> bool_expr (`Assoc[("must", `List[ (compile el); (compile er) ])])
   | Not(e) -> `Assoc[("must_not", compile e)]
-  | EQ(Var el, er) -> `Assoc[ ("term", `Assoc[(el, compile er)])]
+  | EQ(Var el, er) -> `Assoc[("term", `Assoc[(el, compile er)])]
+  | EQ(Project(label, path), er) -> nested (`String label) (EQ(Var path, er) |> compile)
 
 let to_string json =
   Yojson.Basic.pretty_to_string json

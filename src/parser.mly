@@ -13,6 +13,7 @@ open Ast
 
 %token TRUE
 %token FALSE
+%token PERIOD
 %token EXCLAIMATION
 %token EQ
 %token NEQ
@@ -35,7 +36,6 @@ open Ast
 %left EXCLAIMATION
 
 %start <Ast.expr> prog
-
 %%
 
 prog:
@@ -56,6 +56,7 @@ expr:
   | expr AND expr { And ($1, $3) }
   | expr OR expr { Or ($1, $3) }
   | expr EQ expr { EQ ($1, $3) }
+  | ID PERIOD ID { Project($1, $1 ^ "." ^ $3) } (* TODO  this might need to be pointing to ID on both sides *)
   | expr NEQ expr { Not(EQ ($1, $3)) }
   | expr LT expr { LT ($1, $3) }
   | expr LTEQ expr { LTEQ ($1, $3) }

@@ -1,4 +1,5 @@
 (* AST *)
+type label = string
 type expr =
   | Var of string
   | Bool of bool
@@ -13,3 +14,4 @@ type expr =
   | GT of expr * expr
   | LTEQ of expr * expr
   | GTEQ of expr * expr
+  | Project of label * label
