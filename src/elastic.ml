@@ -18,6 +18,7 @@ module Compiler = struct
     | EQ(Var el, er) -> `Assoc[("term", `Assoc[(el, compile er)])]
     | EQ(Project(label, path), er) -> nested (`String label) (EQ(Var path, er) |> compile)
     | LT(Var el, er) -> range el (`Assoc[("lt", compile er)])
+    | GT(Var el, er) -> range el (`Assoc[("gt", compile er)])
 end
 
 let to_string ?(pretty=false) json =
