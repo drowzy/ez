@@ -24,7 +24,7 @@ let cmd =
        | true -> Elastic_compiler.with_query ast
        | false -> ast in
        out
-       |> Elastic_compiler.to_string
+       |> Elastic_compiler.to_string_pretty
        |> print_endline
     )
 

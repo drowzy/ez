@@ -15,6 +15,7 @@ let rec compile = function
   | String s -> `String s
   | Bool b -> `Bool b
   | And(el, er) -> bool_expr (`Assoc[("must", `List[ (compile el); (compile er) ])])
+  | Or (el, er) -> bool_expr (`Assoc[("should", `List[ (compile el); (compile er) ])])
   | Not(e) -> bool_expr (`Assoc[("must_not", compile e)])
   | EQ(Var el, er) -> `Assoc[("term", `Assoc[(el, compile er)])]
   | EQ(Project(label, path), er) -> nested (`String label) (EQ(Var path, er) |> compile)

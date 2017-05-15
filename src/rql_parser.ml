@@ -8,6 +8,3 @@ let from_string s =
 let from_channel ch =
   Lexing.from_channel ch
   |> do_parse
-  (* let lexbuf = Lexing.from_channel ch in *)
-  (* let ast = Parser.prog Lexer.read lexbuf in *)
-  (* ast *)
