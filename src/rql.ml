@@ -8,7 +8,7 @@ let get_inchan = function
 let compile filename =
   get_inchan filename
   |> Rql_parser.from_channel
-  |> Elastic_compiler.compile
+  |> Elastic_compiler.Compiler.compile
 
 let cmd =
   Command.basic
@@ -24,7 +24,7 @@ let cmd =
        | true -> Elastic_compiler.with_query ast
        | false -> ast in
        out
-       |> Elastic_compiler.to_string_pretty
+       |> Elastic_compiler.to_string ~pretty: true
        |> print_endline
     )
 
