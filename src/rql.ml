@@ -2,8 +2,11 @@ open Core.Std
 open Yojson
 
 let get_inchan = function
-  | "-" -> In_channel.stdin
-  | filename -> In_channel.create ~binary: true filename
+  | "-" -> In_channel.stdin |> In_channel.input_all
+  | filename ->
+    match Sys.is_file filename with
+    | `Yes -> In_channel.create ~binary: true filename |> In_channel.input_all
+    | `No | `Unknown -> filename
 
 (* compile ast to elastic json ast *)
 let compile str =
@@ -46,7 +49,7 @@ RRRRRRRR     RRRRRRR     QQQQQQQQ::::QQLLLLLLLLLLLLLLLLLLLLLLLL
       +> anon (maybe_with_default "-" ("filename" %: file))
     )
     (fun use_query debug filename () ->
-       let str = get_inchan filename |> In_channel.input_all in
+       let str = get_inchan filename in
        let ast = compile str |> maybe_append_query use_query in
        let res = match debug with
          | true -> `Assoc[("rql", `String str); ("elastic", ast)]
