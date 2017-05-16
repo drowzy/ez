@@ -12,6 +12,7 @@ let next_line lexbuf =
 }
 
 let white = [' ' '\t']+
+let newline = '\r' | '\n' | "\r\n"
 let digit = ['0'-'9']
 let int = '-'? digit+
 let float = int '.' ['0'-'9'] ['0'-'9']*
@@ -21,6 +22,7 @@ let id = letter+
 rule read =
   parse
   | white { read lexbuf }
+  | newline { next_line lexbuf; read lexbuf }
   | '('   { LPAREN }
   | ')'   { RPAREN }
   | "true" { TRUE }
