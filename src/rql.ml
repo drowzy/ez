@@ -18,11 +18,31 @@ let maybe_append_query use_query ast =
 
 let cmd =
   Command.basic
-    ~summary: "RQL Compile - Compiles the given string to elasticsearch json"
+    ~summary:"
+RRRRRRRRRRRRRRRRR        QQQQQQQQQ     LLLLLLLLLLL
+R::::::::::::::::R     QQ:::::::::QQ   L:::::::::L
+R::::::RRRRRR:::::R  QQ:::::::::::::QQ L:::::::::L
+RR:::::R     R:::::RQ:::::::QQQ:::::::QLL:::::::LL
+  R::::R     R:::::RQ::::::O   Q::::::Q  L:::::L
+  R::::R     R:::::RQ:::::O     Q:::::Q  L:::::L
+  R::::RRRRRR:::::R Q:::::O     Q:::::Q  L:::::L
+  R:::::::::::::RR  Q:::::O     Q:::::Q  L:::::L
+  R::::RRRRRR:::::R Q:::::O     Q:::::Q  L:::::L
+  R::::R     R:::::RQ:::::O     Q:::::Q  L:::::L
+  R::::R     R:::::RQ:::::O  QQQQ:::::Q  L:::::L
+  R::::R     R:::::RQ::::::O Q::::::::Q  L:::::L         LLLLLL
+RR:::::R     R:::::RQ:::::::QQ::::::::QLL:::::::LLLLLLLLL:::::L
+R::::::R     R:::::R QQ::::::::::::::Q L::::::::::::::::::::::L
+R::::::R     R:::::R   QQ:::::::::::Q  L::::::::::::::::::::::L
+RRRRRRRR     RRRRRRR     QQQQQQQQ::::QQLLLLLLLLLLLLLLLLLLLLLLLL
+                                 Q:::::Q
+                                  QQQQQQ
+    \nA less verbose dsl for elasticsearch
+"
     Command.Spec.(
       empty
-      +> flag "-q" no_arg ~doc: "wraps output in a `query` object"
-      +> flag "-d" no_arg ~doc: "Returns a `debug` json string with the original RQL query inlined in the JSON output"
+      +> flag "-q" no_arg ~doc: "Query Wraps output in a `query` object"
+      +> flag "-d" no_arg ~doc: "Debug a `debug` json string with the original RQL query inlined in the JSON output"
       +> anon (maybe_with_default "-" ("filename" %: file))
     )
     (fun use_query debug filename () ->
