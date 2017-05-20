@@ -8,12 +8,10 @@ open Ast
 %token <string> ID
 %token <string> STRING
 
-%token LPAREN
-%token RPAREN
+%token LPAREN RPAREN LBRACK RBRACK
 
 %token TRUE
 %token FALSE
-%token PERIOD
 %token EXCLAIMATION
 %token EQ
 %token NEQ
@@ -52,11 +50,11 @@ expr:
   | TRUE { Bool true }
   | FALSE { Bool false}
   | LPAREN expr RPAREN { $2 }
+  | id = ID LBRACK e = expr RBRACK { Scope(id, e)}
   | EXCLAIMATION expr { Not ($2) }
   | expr AND expr { And ($1, $3) }
   | expr OR expr { Or ($1, $3) }
   | expr EQ expr { EQ ($1, $3) }
-  | ID PERIOD ID { Project($1, $1 ^ "." ^ $3) }
   | expr NEQ expr { Not(EQ ($1, $3)) }
   | expr LT expr { LT ($1, $3) }
   | expr LTEQ expr { LTEQ ($1, $3) }

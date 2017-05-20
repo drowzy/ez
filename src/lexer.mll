@@ -16,7 +16,7 @@ let newline = '\r' | '\n' | "\r\n"
 let digit = ['0'-'9']
 let int = '-'? digit+
 let float = int '.' ['0'-'9'] ['0'-'9']*
-let letter = ['a'-'z' 'A'-'Z']
+let letter = ['a'-'z' 'A'-'Z' '.']
 let id = letter+
 
 rule read =
@@ -25,13 +25,14 @@ rule read =
   | newline { next_line lexbuf; read lexbuf }
   | '('   { LPAREN }
   | ')'   { RPAREN }
+  | '{'   { LBRACK }
+  | '}'   { RBRACK }
   | "true" { TRUE }
   | "false" { FALSE }
   | "and" { AND }
   | "or" { OR }
   | '"' { read_string (Buffer.create 17) lexbuf }
   | '!' { EXCLAIMATION }
-  | '.' { PERIOD }
   | "==" { EQ }
   | "!=" { NEQ }
   | '<'  { LT }

@@ -15,3 +15,4 @@ type expr =
   | LTEQ of expr * expr
   | GTEQ of expr * expr
   | Project of label * label
+  | Scope of label * expr
