@@ -16,8 +16,8 @@ let newline = '\r' | '\n' | "\r\n"
 let digit = ['0'-'9']
 let int = '-'? digit+
 let float = int '.' ['0'-'9'] ['0'-'9']*
-let letter = ['a'-'z' 'A'-'Z' '.']
-let id = letter+
+let letter = ['a'-'z' 'A'-'Z']
+let id = (letter | '.')+
 
 rule read =
   parse
