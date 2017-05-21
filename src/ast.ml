@@ -16,3 +16,4 @@ type expr =
   | GTEQ of expr * expr
   | Project of label * label
   | Scope of label * expr
+  | Raw of string

@@ -19,6 +19,7 @@ open Ast
 %token GT
 %token LTEQ
 %token GTEQ
+%token RAW
 
 %token AND
 %token OR
@@ -51,6 +52,7 @@ expr:
   | FALSE { Bool false}
   | LPAREN expr RPAREN { $2 }
   | id = ID LBRACK e = expr RBRACK { Scope(id, e)}
+  | RAW s = STRING { Raw(s) }
   | EXCLAIMATION expr { Not ($2) }
   | expr AND expr { And ($1, $3) }
   | expr OR expr { Or ($1, $3) }

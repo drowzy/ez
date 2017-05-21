@@ -16,6 +16,7 @@ module Compiler = struct
     | GTEQ(Var el, er) -> range el (`Assoc[("gteq", compile er)])
     | LTEQ(Var el, er) -> range el (`Assoc[("lteq", compile er)])
     | Scope(el, er) -> nested (`String el) (compile er)
+    | Raw(json_str) -> raw json_str
 
   and bool_expr json =
     `Assoc[("bool", json)]
@@ -23,6 +24,8 @@ module Compiler = struct
     `Assoc[("range", `Assoc[(prop, json)])]
   and nested path json =
     `Assoc[("nested", `Assoc[("path", path); ("query", json)])]
+  and raw json_str =
+      Yojson.Basic.from_string json_str
 end
 
 let with_query json =
