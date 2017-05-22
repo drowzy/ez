@@ -1,0 +1,17 @@
+OASISFormat: 0.4
+Name:        ez
+Version:     0.0.1
+Synopsis:    An Elasticsearch dsl
+Authors:     Simon Thörnqvist
+License:     MIT
+Plugins:     META (0.4), DevFiles (0.4)
+
+AlphaFeatures: ocamlbuild_more_args
+XOCamlbuildExtraArgs: -use-menhir
+BuildDepends: yojson,menhirLib,core,threads
+
+Executable ez
+  Path:       src/
+  BuildTools: ocamlbuild
+  CompiledObject: best
+  MainIs:     ez.ml

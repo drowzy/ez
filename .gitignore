@@ -2,3 +2,5 @@ _build
 *.byte
 *.native
 docs.tmp
+setup.log
+setup.data

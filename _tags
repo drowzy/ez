@@ -1,6 +1,26 @@
-true: package(core)
-true: package(yojson)
-true: use_menhir
-true: bin_annot
-true: linkpkg
-true: thread
+# OASIS_START
+# DO NOT EDIT (digest: 619a5d9cb5c4775cff584af9397de5a1)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
+# useless stuff for the build process
+true: annot, bin_annot
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Executable ez
+<src/ez.{native,byte}>: pkg_core
+<src/ez.{native,byte}>: pkg_menhirLib
+<src/ez.{native,byte}>: pkg_threads
+<src/ez.{native,byte}>: pkg_yojson
+<src/*.ml{,i,y}>: pkg_core
+<src/*.ml{,i,y}>: pkg_menhirLib
+<src/*.ml{,i,y}>: pkg_threads
+<src/*.ml{,i,y}>: pkg_yojson
+# OASIS_STOP
