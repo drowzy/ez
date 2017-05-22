@@ -11,7 +11,7 @@ A less verbose Elasticsearch DSL
 A less verbose dsl for elasticsearch
 
 
-  ez.native [FILENAME]
+  ez [FILENAME]
 
 === flags ===
 
@@ -42,9 +42,17 @@ In order to compile this package, you will need:
 ### Installing
 
 1. Uncompress the source archive and go to the root of the package
-2. Run 'ocaml setup.ml -configure'
-3. Run 'ocaml setup.ml -build'
-4. Run 'ocaml setup.ml -install'
+2. Run `ocaml setup.ml -configure`
+3. Run `ocaml setup.ml -build`
+4. Run `ocaml setup.ml -install`
+
+or with `make`
+
+```bash
+make
+make install
+
+```
 
 ### Uninstalling
 
