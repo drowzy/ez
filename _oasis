@@ -10,7 +10,7 @@ AlphaFeatures: ocamlbuild_more_args
 XOCamlbuildExtraArgs: -use-menhir
 BuildDepends: yojson,menhirLib,core,threads
 
-Executable ez
+Executable "ez"
   Path:       src/
   BuildTools: ocamlbuild
   CompiledObject: best
