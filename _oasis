@@ -6,12 +6,36 @@ Authors:     Simon Thörnqvist
 License:     MIT
 Plugins:     META (0.4), DevFiles (0.4)
 
+BuildTools: ocamlbuild
 AlphaFeatures: ocamlbuild_more_args
 XOCamlbuildExtraArgs: -use-menhir
-BuildDepends: yojson,menhirLib,core,threads
 
-Executable "ez"
+Library "syntax"
+  Path: src/syntax
+  Modules: Ast, Lexer, Parser
+  BuildDepends: menhirLib
+  Install: false
+
+Library "elastic"
+  Path: src/elastic
+  Modules: Compiler
+  BuildDepends: yojson, syntax
+  Install: false
+
+Executable ez
   Path:       src/
   BuildTools: ocamlbuild
   CompiledObject: best
+  BuildDepends: yojson,menhirLib,core,threads,syntax,elastic
   MainIs:     ez.ml
+
+Executable test_syntax
+  Install: false
+  BuildTools: ocamlbuild
+  CompiledObject: best
+  Path: tests/
+  MainIs: main.ml
+  BuildDepends: oUnit,syntax
+
+Test syntax
+  Command: $test_syntax

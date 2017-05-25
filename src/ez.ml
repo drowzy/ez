@@ -11,12 +11,13 @@ let get_inchan = function
 (* compile ast to elastic json ast *)
 let compile str =
   str
-  |> Ez_parser.from_string
-  |> Elastic.Compiler.compile
+  |> Lexing.from_string
+  |> Parser.prog Lexer.read
+  |> Compiler.compile
 
 let maybe_append_query use_query ast =
   match use_query with
-  | true -> Elastic.with_query ast
+  | true -> Compiler.with_query ast
   | false -> ast
 
 let cmd =
@@ -42,7 +43,7 @@ let cmd =
          | true -> `Assoc[("ez", `String str); ("elastic", ast)]
          | false -> ast in
        res
-       |> Elastic.to_string ~pretty: true
+       |> Compiler.to_string ~pretty: true
        |> print_endline
     )
 

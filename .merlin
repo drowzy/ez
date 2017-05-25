@@ -1,6 +1,13 @@
 PKG core
 PKG yojson
 PKG menhirLib
+PKG oUnit
 
 S src
+S tests
+S src/syntax
+S src/elastic
 B _build/src
+B _build/tests
+B _build/src/syntax
+B _build/src/elastic
