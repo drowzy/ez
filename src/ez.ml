@@ -33,16 +33,25 @@ let ez_cli filename has_query debug =
 open Cmdliner
 
 let input =
-  let doc = "Input, stdin, file or string" in
-  Arg.(value & pos 0 string "-" & info [] ~docv:"FILE" ~doc)
+  Arg.(
+    value &
+    pos 0 string "-" &
+    info [] ~docv:"FILE" ~doc: "Input, stdin, file or string"
+  )
 
 let use_query =
-  let doc = "Wraps output in a `query` object" in
-  Arg.(value & flag & info ["q"; "query"] ~docv: "QUERY" ~doc)
+  Arg.(
+    value &
+    flag &
+    info ["q"; "query"] ~docv: "QUERY" ~doc: "Wraps output in a `query` object"
+  )
 
 let debug =
-  let doc = "a `debug` json string with the original Ez query inlined in the JSON output" in
-  Arg.(value & flag & info ["d"; "debug"] ~docv: "DEBUG" ~doc)
+  Arg.(
+    value &
+    flag &
+    info ["d"; "debug"] ~docv: "DEBUG" ~doc: "Inlines the original Ez query in JSON output"
+  )
 
 let ez_t = Term.(const ez_cli $ input $ use_query $ debug)
 
@@ -50,7 +59,7 @@ let info =
   let doc = "A less verbose dsl for elasticsearch" in
   let man = [
     `S Manpage.s_bugs;
-    `P "Email bug reports to <hehey at example.org>." ]
+    `P "No bugs present, only unintended features" ]
   in
   Term.info "ez" ~version:"%%VERSION%%" ~doc ~exits:Term.default_exits ~man
 
