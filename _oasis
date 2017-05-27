@@ -10,14 +10,6 @@ BuildTools: ocamlbuild
 AlphaFeatures: ocamlbuild_more_args
 XOCamlbuildExtraArgs: -use-menhir
 
-Flag bin_linux
-  Description: compile for linxu
-  Default$: !os_type(Win32)
-
-Flag bin_win
-  Description: compile for win
-  Default$: !flag(bin_linux)
-
 Library "syntax"
   Path: src/syntax
   Modules: Ast, Lexer, Parser
@@ -32,19 +24,10 @@ Library "elastic"
 
 Executable ez
   Path:       src/
-  Build$: flag(bin_linux)
   BuildTools: ocamlbuild
   CompiledObject: best
-  BuildDepends: yojson,menhirLib,core,threads,syntax,elastic
+  BuildDepends: core_kernel, cmdliner, yojson, syntax, elastic
   MainIs:     ez.ml
-
-Executable ez_win
-  Path:       src/
-  Build$: flag(bin_win)
-  BuildTools: ocamlbuild
-  CompiledObject: best
-  BuildDepends: core_kernel,cmdliner,yojson,syntax,elastic
-  MainIs:     ez_win.ml
 
 Executable test_syntax
   Install: false
