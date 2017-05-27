@@ -43,7 +43,7 @@ Executable ez_win
   Build$: flag(bin_win)
   BuildTools: ocamlbuild
   CompiledObject: best
-  BuildDepends: core_kernel,cmdliner,yojson,syntax,elastic,sys
+  BuildDepends: core_kernel,cmdliner,yojson,syntax,elastic
   MainIs:     ez_win.ml
 
 Executable test_syntax
