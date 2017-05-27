@@ -20,14 +20,12 @@ Flag bin_win
 
 Library "syntax"
   Path: src/syntax
-  Build$: flag(bin_linux)
   Modules: Ast, Lexer, Parser
   BuildDepends: menhirLib
   Install: false
 
 Library "elastic"
   Path: src/elastic
-  Build$: flag(bin_linux)
   Modules: Compiler
   BuildDepends: yojson, syntax
   Install: false
