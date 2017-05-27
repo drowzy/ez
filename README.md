@@ -37,7 +37,19 @@ In order to compile this package, you will need:
 * findlib
 * yojson
 * menhirLib
-* core
+* core_kernel
+* cmdliner
+
+### Tests
+
+Tests are turned off by default, they can be enabled with:
+
+```bash
+ocaml setup.ml -configure --enable-tests
+```
+
+After that it's just a matter of running `make test` to run the suite
+
 
 ### Installing
 

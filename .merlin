@@ -1,7 +1,8 @@
-PKG core
 PKG yojson
 PKG menhirLib
 PKG oUnit
+PKG core_kernel
+PKG cmdliner
 
 S src
 S tests

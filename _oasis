@@ -26,7 +26,7 @@ Executable ez
   Path:       src/
   BuildTools: ocamlbuild
   CompiledObject: best
-  BuildDepends: yojson,menhirLib,core,threads,syntax,elastic
+  BuildDepends: core_kernel, cmdliner, yojson, syntax, elastic
   MainIs:     ez.ml
 
 Executable test_syntax

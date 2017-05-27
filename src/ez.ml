@@ -1,51 +1,66 @@
-open Core.Std
-open Yojson
+module Std = Core_kernel.Std
 
 let get_inchan = function
-  | "-" -> In_channel.stdin |> In_channel.input_all
+  | "-" -> Std.In_channel.stdin |> Std.In_channel.input_all
   | filename ->
-    match Sys.is_file filename with
-    | `Yes -> In_channel.create ~binary: true filename |> In_channel.input_all
-    | `No | `Unknown -> filename
-
-(* compile ast to elastic json ast *)
-let compile str =
-  str
-  |> Lexing.from_string
-  |> Parser.prog Lexer.read
-  |> Compiler.compile
+    match Sys.file_exists filename with
+    | true -> Std.In_channel.create ~binary: true filename |> Std.In_channel.input_all
+    | false -> filename
 
 let maybe_append_query use_query ast =
   match use_query with
   | true -> Compiler.with_query ast
   | false -> ast
 
-let cmd =
-  Command.basic
-    ~summary:"
-  ___ ____
- / _ \_  /
-|  __// /
- \___/___|
+let compile str =
+  str
+  |> Lexing.from_string
+  |> Parser.prog Lexer.read
+  |> Compiler.compile
 
-    \nA less verbose dsl for elasticsearch
-"
-    Command.Spec.(
-      empty
-      +> flag "-q" no_arg ~doc: "Query Wraps output in a `query` object"
-      +> flag "-d" no_arg ~doc: "Debug a `debug` json string with the original Ez query inlined in the JSON output"
-      +> anon (maybe_with_default "-" ("filename" %: file))
-    )
-    (fun use_query debug filename () ->
-       let str = get_inchan filename in
-       let ast = compile str |> maybe_append_query use_query in
-       let res = match debug with
-         | true -> `Assoc[("ez", `String str); ("elastic", ast)]
-         | false -> ast in
-       res
-       |> Compiler.to_string ~pretty: true
-       |> print_endline
-    )
+let ez_cli filename has_query debug =
+  let str = get_inchan filename in
+  let ast = compile str |> maybe_append_query has_query in
+  let res = match debug with
+    | true -> `Assoc[("ez", `String str); ("elastic", ast)]
+    | false -> ast in
+  res
+  |> Compiler.to_string ~pretty: true
+  |> print_endline
 
-let () =
-  Command.run ~version: "0.1" ~build_info:"beta1" cmd
+(* Command line interface *)
+
+open Cmdliner
+
+let input =
+  Arg.(
+    value &
+    pos 0 string "-" &
+    info [] ~docv:"FILE" ~doc: "Input, stdin, file or string"
+  )
+
+let use_query =
+  Arg.(
+    value &
+    flag &
+    info ["q"; "query"] ~docv: "QUERY" ~doc: "Wraps output in a `query` object"
+  )
+
+let debug =
+  Arg.(
+    value &
+    flag &
+    info ["d"; "debug"] ~docv: "DEBUG" ~doc: "Inlines the original Ez query in JSON output"
+  )
+
+let ez_t = Term.(const ez_cli $ input $ use_query $ debug)
+
+let info =
+  let doc = "A less verbose dsl for elasticsearch" in
+  let man = [
+    `S Manpage.s_bugs;
+    `P "No bugs present, only unintended features" ]
+  in
+  Term.info "ez" ~version:"%%VERSION%%" ~doc ~exits:Term.default_exits ~man
+
+let () = Term.exit @@ Term.eval (ez_t, info)
