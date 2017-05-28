@@ -3,11 +3,13 @@ PKG menhirLib
 PKG oUnit
 PKG core_kernel
 PKG cmdliner
+PKG opium
 
 S src
 S tests
 S src/syntax
 S src/elastic
+S src/compiler_service
 B _build/src
 B _build/tests
 B _build/src/syntax
