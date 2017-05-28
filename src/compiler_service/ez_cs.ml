@@ -18,5 +18,6 @@ end
 
 let _ =
   App.empty
+  |> middleware Ez_log.req_log
   |> compile
   |> App.run_command

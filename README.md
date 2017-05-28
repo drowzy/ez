@@ -235,3 +235,19 @@ curl -H "Content-Type: application/json" -X POST -d @- http://localhost:9200/ord
 
 ## Compiler backends
 * Elasticsearch JSON DSL
+
+## Compiler service
+
+The `ez_cs` binary is compiler service over HTTP
+
+See `ez_cs --help` for flags & options
+### Running
+```
+./ez_cs --verbose --debug --port 5000 [3000]
+```
+The verbose flag will print request/response information to stdout.
+
+### Routes
+
+1 Routes:
+`> /compile (PUT)`
