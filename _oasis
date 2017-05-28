@@ -12,7 +12,7 @@ XOCamlbuildExtraArgs: -use-menhir
 
 Library "syntax"
   Path: src/syntax
-  Modules: Ast, Lexer, Parser
+  Modules: Ast, Ez_lexer, Ez_parser
   BuildDepends: menhirLib
   Install: false
 

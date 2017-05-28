@@ -1,6 +1,6 @@
 {
 open Lexing
-open Parser
+open Ez_parser
 exception SyntaxError of string
 
 let next_line lexbuf =
