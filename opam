@@ -1,0 +1,20 @@
+opam-version: "1.2"
+name: "ez"
+version: "0.0.1"
+maintainer: "Simon Thörnqvist <simon@plug-n-trade.com>"
+authors: "Simon Thörnqvist <simon@plug-n-trade.com>"
+homepage: "http://github.com"
+license: "MIT"
+build: [
+  [make "configure"]
+  [make]
+]
+install: [make]
+remove: ["ocamlfind" "remove" "ez"]
+depends: [
+  "ocamlfind" {build}
+  "cmdliner"
+  "core_kernel"
+  "menhir"
+  "yojson"
+]
