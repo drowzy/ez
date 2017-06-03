@@ -40,6 +40,16 @@ In order to compile this package, you will need:
 * core_kernel
 * cmdliner
 
+The easiest way is to create a local switch, pin the package and install the dependencies specified in the opam file:
+```bash
+opam switch install ez_switch -A 4.04.1
+opam pin add ez . --no-action
+opam install ez --deps-only
+# Oasis & oUnit is required for development so run the deps.sh script to
+# install them
+./deps.sh
+```
+
 ### Tests
 
 Tests are turned off by default, they can be enabled with:
