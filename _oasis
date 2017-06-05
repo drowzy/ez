@@ -13,7 +13,7 @@ XOCamlbuildExtraArgs: -use-menhir
 Library "syntax"
   Path: src/syntax
   Modules: Ast, Ez_lexer, Ez_parser
-  BuildDepends: menhirLib
+  BuildDepends: menhirLib, core_kernel, sexplib, ppx_sexp_conv
   Install: false
 
 Library "elastic"
