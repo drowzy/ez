@@ -7,9 +7,6 @@ ADD . ez
 RUN sudo chown -R opam.nogroup /home/opam/ez
 WORKDIR /home/opam/ez
 
-# RUN opam update -u && \
-#     opam config exec -- opam-depext $OPAM_PKGS
-
 RUN opam config exec -- opam install $OPAM_PKGS
 RUN opam config exec -- make configure
 RUN opam config exec -- make

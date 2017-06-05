@@ -16,6 +16,11 @@ let test_parse_int () = compare_expr "1" (Int 1)
 let test_parse_string () = compare_expr "\"foo\"" (String "foo")
 let test_parse_and () = compare_expr "foo == 10 and bar == 5" (And ((EQ (Var "foo", Int 10)), (EQ (Var "bar", Int 5))))
 let test_parse_or () = compare_expr "foo == 10 or bar == 5" (Or ((EQ (Var "foo", Int 10)), (EQ (Var "bar", Int 5))))
+let test_parse_not () = compare_expr "foo != 10" (Not (EQ (Var "foo", Int 10)))
+let test_parse_lteq () = compare_expr "foo <= 10" (Not (EQ (Var "foo", Int 10)))
+let test_parse_gteq () = compare_expr "foo >= 10" (Not (EQ (Var "foo", Int 10)))
+let test_parse_scope () = compare_expr "foo { foo.bar == 10 }" (Not (EQ (Var "foo", Int 10)))
+let test_parse_nested_scope () = compare_expr "foo { foo.bar { foo.bar.baz == 10}}" (Not (EQ (Var "foo", Int 10)))
 
 let tests = "Syntax" >::: [
   "parse_id" >:: test_parse_var;
@@ -24,4 +29,9 @@ let tests = "Syntax" >::: [
   "parse_string" >:: test_parse_string;
   "parse_and" >:: test_parse_and;
   "parse_or" >:: test_parse_or;
+  "parse_not_eq" >:: test_parse_or;
+  "parse_lteq" >:: test_parse_lteq;
+  "parse_gteq" >:: test_parse_gteq;
+  "parse_scope" >:: test_parse_scope;
+  "parse_nested_scope" >:: test_parse_nested_scope;
 ]
