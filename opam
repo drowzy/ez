@@ -17,4 +17,5 @@ depends: [
   "core_kernel"
   "menhir"
   "yojson"
+  "opium"
 ]
