@@ -30,6 +30,7 @@ Executable ez
   MainIs:     ez.ml
 
 Executable ez_compiler_service
+  Build$: !os_type(Win32)
   Path:       src/compiler_service
   BuildTools: ocamlbuild
   CompiledObject: best
