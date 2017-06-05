@@ -1,15 +1,6 @@
 open Opium.Std
 open Lwt.Infix
 
-(* TODO this is used like everywhere maybe its own lib instead of exposing everything everywhere? *)
-let ez_compile str =
-  str
-  |> Lexing.from_string
-  |> Ez_parser.prog Ez_lexer.read
-  |> Compiler.compile
-  |> Compiler.with_query
-  |> Compiler.to_string
-
 let is_json s = s |> String.lowercase_ascii |> String.equal "application/json"
 
 let compile = put "/compile" begin fun req ->
