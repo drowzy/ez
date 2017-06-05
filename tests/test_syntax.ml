@@ -4,7 +4,7 @@ open Ast
 let parse_expr expr =
   expr
   |> Lexing.from_string
-  |> Parser.prog Lexer.read
+  |> Ez_parser.prog Ez_lexer.read
 
 let compare_expr expr expected =
   let parsed = parse_expr expr in

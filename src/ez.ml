@@ -15,7 +15,7 @@ let maybe_append_query use_query ast =
 let compile str =
   str
   |> Lexing.from_string
-  |> Parser.prog Lexer.read
+  |> Ez_parser.prog Ez_lexer.read
   |> Compiler.compile
 
 let ez_cli filename has_query debug =

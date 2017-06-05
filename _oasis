@@ -12,7 +12,7 @@ XOCamlbuildExtraArgs: -use-menhir
 
 Library "syntax"
   Path: src/syntax
-  Modules: Ast, Lexer, Parser
+  Modules: Ast, Ez_lexer, Ez_parser
   BuildDepends: menhirLib
   Install: false
 
@@ -28,6 +28,13 @@ Executable ez
   CompiledObject: best
   BuildDepends: core_kernel, cmdliner, yojson, syntax, elastic
   MainIs:     ez.ml
+
+Executable ez_compiler_service
+  Path:       src/compiler_service
+  BuildTools: ocamlbuild
+  CompiledObject: best
+  BuildDepends: core_kernel, yojson, syntax, elastic, opium.unix
+  MainIs:     ez_cs.ml
 
 Executable test_syntax
   Install: false

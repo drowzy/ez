@@ -1,9 +1,10 @@
-#directory "_build/src";;
+#directory "_build/src/syntax";;
+#directory "_build/src/elastic";;
 #require "yojson" ;;
-#require "core";;
-#load "lexer.cmo";;
-#load "parser.cmo";;
-#load "elastic.cmo";;
+#require "core_kernel";;
+#load "ast.cmo";;
+#load "compiler.cmo";;
 #load "ez_parser.cmo";;
+#load "ez_lexer.cmo";;
 open Ast
-open Elastic
+open Compiler

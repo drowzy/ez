@@ -17,17 +17,12 @@ let rec compile = function
   | Scope(el, er) -> nested (`String el) (compile er)
   | Raw(json_str) -> raw json_str
 
-and bool_expr json =
-  `Assoc[("bool", json)]
-and range prop json =
-  `Assoc[("range", `Assoc[(prop, json)])]
-and nested path json =
-  `Assoc[("nested", `Assoc[("path", path); ("query", json)])]
-and raw json_str =
-    Yojson.Basic.from_string json_str
+and bool_expr json = `Assoc[("bool", json)]
+and range prop json = `Assoc[("range", `Assoc[(prop, json)])]
+and nested path json = `Assoc[("nested", `Assoc[("path", path); ("query", json)])]
+and raw json_str = Yojson.Basic.from_string json_str
 
-let with_query json =
-  `Assoc[("query", json)]
+let with_query json = `Assoc[("query", json)]
 
 let to_string ?(pretty=false) json =
   match pretty with
