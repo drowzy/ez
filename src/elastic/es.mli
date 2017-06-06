@@ -30,3 +30,5 @@ val to_json_ast : t -> Yojson.Basic.json
 val to_json_string : t ->  string
 
 val wrap_json : string -> Yojson.Basic.json -> Yojson.Basic.json
+
+val json_to_string : Yojson.Basic.json -> string

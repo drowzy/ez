@@ -18,7 +18,7 @@ Library "syntax"
 
 Library "elastic"
   Path: src/elastic
-  Modules: Compiler, Es
+  Modules: Es
   BuildDepends: yojson, syntax
   Install: false
 

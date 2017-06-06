@@ -7,8 +7,7 @@ let to_ast str =
 
 let to_elastic ast =
   ast
-  |> Compiler.compile
-  |> Compiler.with_query
+  |> Es.from_ez
 
 let from_req json =
   let open Ezjsonm in
@@ -21,7 +20,17 @@ let create_target ~expr ~debug =
 
 let to_response {expr; debug;} =
   let open Ezjsonm in
+  let es_t = to_elastic expr in
   dict [
-    "data", from_string (expr |> to_elastic |> Compiler.to_string);
-    "debug", `String (if debug == true then "there should be a debug string here" else "")
+    "data", from_string (
+      es_t
+      |> Es.to_json_ast
+      |> Es.wrap_json "query"
+      |> Es.json_to_string
+    );
+    "debug", `String (
+      if debug == true
+      then Ast.debug_str_of_expr expr
+      else ""
+    )
   ]

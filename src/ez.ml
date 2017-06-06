@@ -29,7 +29,7 @@ let ez_cli filename has_query debug =
       ]
     | false -> ast in
   res
-  |> Compiler.to_string ~pretty: true
+  |> Es.json_to_string
   |> print_endline
 
 (* Command line interface *)

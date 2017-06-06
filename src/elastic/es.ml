@@ -115,5 +115,8 @@ let to_json_string ast =
   |> to_json_ast
   |> Yojson.Basic.to_string
 
+let json_to_string json =
+  Yojson.Basic.to_string json
+
 let wrap_json str json =
   `Assoc [str, json]
