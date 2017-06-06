@@ -1,7 +1,9 @@
+open Yojson
 open Core_kernel.Std
 open Ast
 
 exception SyntaxError of string
+
 type id = string [@@deriving sexp]
 
 type number =
@@ -33,8 +35,8 @@ and bool_expr =
 let rec from_ez = function
   | And (expr_l, expr_r) -> Bool (Must [from_ez expr_l; from_ez expr_r])
   | Or (expr_l, expr_r) -> Bool (Should [from_ez expr_l; from_ez expr_r])
-  | EQ (Var i, expr_r) -> Term (i, to_value expr_r)
-  | LT (Var i, expr_r) -> Range (i, "lt", to_number expr_r)
+  | EQ (Var id, expr_r) -> Term (id, to_value expr_r)
+  | LT (Var id, expr_r) -> Range (id, "lt", to_number expr_r)
   | GT (Var i, expr_r) -> Range (i, "gt", to_number expr_r)
   | LTEQ (Var i, expr_r) -> Range (i, "lteq", to_number expr_r)
   | GTEQ (Var i, expr_r) -> Range (i, "gteq", to_number expr_r)
@@ -53,3 +55,60 @@ and to_number = function
   | Ast.Int i -> Int i
   | Ast.Float f -> Float f
   | value -> raise (SyntaxError ("Unsupported value: " ^ Ast.debug_str_of_expr value))
+
+let rec (to_json_ast : t -> Yojson.Basic.json) = function
+  | Term (id, value) ->
+    `Assoc [
+      "term", `Assoc [id, to_json_ast_value value]
+    ]
+  | Bool expr -> to_json_ast_bool expr
+  | Range (id, typename, range) ->
+    `Assoc [
+      "range", `Assoc [
+        id, `Assoc [
+          typename, to_json_ast_number range
+        ]
+      ]
+    ]
+  | Nested (id, expr) ->
+    `Assoc [
+      "nested", `Assoc [
+        "path", `String id;
+        "query", to_json_ast expr;
+      ]
+    ]
+  | Raw json_str -> Yojson.Basic.from_string json_str
+and to_json_ast_bool expr =
+  let bool_expr = match expr with
+  | Must list_t -> ("must", list_t)
+  | Should list_t  -> ("should", list_t)
+  | Must_not list_t  -> ("must_not", list_t) in
+  `Assoc [
+    fst bool_expr,
+    `List (
+      List.map ~f:to_json_ast (snd bool_expr)
+    )
+  ]
+
+and to_json_ast_value = function
+  | String s -> `String s
+  | Bool b -> `Bool b
+  | Int i -> `Int i
+  | Float f -> `Float f
+
+and (to_json_ast_number : number -> Yojson.Basic.json) = function
+  | Int i -> `Int i
+  | Float f -> `Float f
+
+let pp_ast ast =
+  ast
+  |> sexp_of_t
+  |> Sexp.to_string_hum ~indent: 2
+
+let to_json_string ast =
+  ast
+  |> to_json_ast
+  |> Yojson.Basic.to_string
+
+let wrap_json json str =
+  `Assoc [str, json]

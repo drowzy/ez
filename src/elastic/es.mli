@@ -1,5 +1,9 @@
 type id = string
 
+type number =
+  | Float of float
+  | Int of int
+
 type value =
   | String of string
   | Bool of bool
@@ -8,6 +12,7 @@ type value =
 
 type t =
   | Term of id * value
+  | Range of id * string * number
   | Bool of bool_expr
   | Nested of id * t
   | Raw of string
@@ -23,3 +28,5 @@ val pp_ast : t -> string
 val to_json_ast : t -> Yojson.Basic.json
 
 val to_json_string : t ->  string
+
+val wrap_json : Yojson.Basic.json -> string -> Yojson.Basic.json
