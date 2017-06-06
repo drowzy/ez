@@ -42,6 +42,7 @@ let rec from_ez = function
   | GTEQ (Var i, expr_r) -> Range (i, "gteq", to_number expr_r)
   | Scope (i, expr_r) -> Nested (i, from_ez expr_r)
   | Raw (json_str) -> Raw json_str
+  | Not (expr) -> Bool (Must_not [from_ez expr])
   | value -> raise (SyntaxError ("Unsupported value: " ^ Ast.debug_str_of_expr value))
 
 and to_value = function
@@ -83,11 +84,15 @@ and to_json_ast_bool expr =
   | Must list_t -> ("must", list_t)
   | Should list_t  -> ("should", list_t)
   | Must_not list_t  -> ("must_not", list_t) in
+  let exprs = match bool_expr with
+    | (_, []) -> `List ([])
+    | (_, h :: []) -> to_json_ast h
+    | (_, h :: tl) -> `List (List.map ~f:to_json_ast ([h] @ tl) ) in
   `Assoc [
-    fst bool_expr,
-    `List (
-      List.map ~f:to_json_ast (snd bool_expr)
-    )
+    "bool", `Assoc [
+      fst bool_expr,
+      exprs
+    ]
   ]
 
 and to_json_ast_value = function
@@ -110,5 +115,5 @@ let to_json_string ast =
   |> to_json_ast
   |> Yojson.Basic.to_string
 
-let wrap_json json str =
+let wrap_json str json =
   `Assoc [str, json]
