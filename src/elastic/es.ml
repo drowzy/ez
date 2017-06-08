@@ -112,7 +112,7 @@ let pp_ast ast =
   |> sexp_of_t
   |> Sexp.to_string_hum ~indent: 2
 
-let to_json_string ast =
+let to_string ast =
   ast
   |> to_json_ast
   |> Yojson.Basic.to_string

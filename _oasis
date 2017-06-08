@@ -43,7 +43,7 @@ Executable test_syntax
   CompiledObject: best
   Path: tests/
   MainIs: main.ml
-  BuildDepends: oUnit,syntax
+  BuildDepends: oUnit,syntax,elastic
 
 Test syntax
   Command: $test_syntax

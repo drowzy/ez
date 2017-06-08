@@ -3,6 +3,7 @@ open OUnit
 let all_tests =
   [
     Test_syntax.tests;
+    Test_es.tests
   ]
 
 let () =
