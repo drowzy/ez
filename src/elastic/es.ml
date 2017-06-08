@@ -60,7 +60,9 @@ and to_number = function
 let rec (to_json_ast : t -> Yojson.Basic.json) = function
   | Term (id, value) ->
     `Assoc [
-      "term", `Assoc [id, to_json_ast_value value]
+      "term", `Assoc [
+        id, to_json_ast_value value
+      ]
     ]
   | Bool expr -> to_json_ast_bool expr
   | Range (id, typename, range) ->
