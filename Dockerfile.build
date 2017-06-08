@@ -1,6 +1,6 @@
 FROM ocaml/opam:ubuntu-16.04_ocaml-4.04.0
 
-ENV OPAM_PKGS ocamlfind ocamlbuild oasis core_kernel menhir cmdliner yojson ounit
+ENV OPAM_PKGS ocamlfind ocamlbuild oasis opium core_kernel menhir cmdliner yojson ounit
 USER opam
 ENV TERM xterm
 ADD . ez
