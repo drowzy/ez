@@ -9,23 +9,27 @@ let get_inchan = function
 
 let maybe_append_query use_query ast =
   match use_query with
-  | true -> Compiler.with_query ast
+  | true -> Es.wrap_json "query" ast
   | false -> ast
 
 let compile str =
   str
   |> Lexing.from_string
   |> Ez_parser.prog Ez_lexer.read
-  |> Compiler.compile
+  |> Es.from_ez
+  |> Es.to_json_ast
 
 let ez_cli filename has_query debug =
   let str = get_inchan filename in
   let ast = compile str |> maybe_append_query has_query in
   let res = match debug with
-    | true -> `Assoc[("ez", `String str); ("elastic", ast)]
+    | true -> `Assoc [
+        "ez", `String str;
+        "elastic", ast
+      ]
     | false -> ast in
   res
-  |> Compiler.to_string ~pretty: true
+  |> Es.json_to_string
   |> print_endline
 
 (* Command line interface *)

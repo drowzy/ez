@@ -1,6 +1,8 @@
 (* AST *)
 open Core_kernel.Std
+
 type label = string [@@deriving sexp]
+
 type expr =
   | Var of string
   | Bool of bool
@@ -15,7 +17,6 @@ type expr =
   | GT of expr * expr
   | LTEQ of expr * expr
   | GTEQ of expr * expr
-  | Project of label * label
   | Scope of label * expr
   | Raw of string
 [@@deriving sexp]
