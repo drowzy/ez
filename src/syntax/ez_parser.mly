@@ -8,7 +8,7 @@ open Ast
 %token <string> ID
 %token <string> STRING
 
-%token LPAREN RPAREN LBRACK RBRACK
+%token LPAREN RPAREN LBRACK RBRACK LBRACE RBRACE
 
 %token TRUE
 %token FALSE
@@ -29,6 +29,7 @@ open Ast
 %left OR
 
 %nonassoc EQ
+%nonassoc IN
 %nonassoc NEQ
 
 %nonassoc GT LT LTEQ GTEQ

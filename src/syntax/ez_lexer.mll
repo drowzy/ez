@@ -27,6 +27,8 @@ rule read =
   | ')'   { RPAREN }
   | '{'   { LBRACK }
   | '}'   { RBRACK }
+  | '['   { LBRACE }
+  | ']'   { RBRACE }
   | "true" { TRUE }
   | "false" { FALSE }
   | "and" { AND }
