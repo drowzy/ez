@@ -30,7 +30,7 @@ let to_response {expr; debug;} =
     );
     "debug", `String (
       if debug == true
-      then Ast.debug_str_of_expr expr
+      then Ast.to_string expr
       else ""
     )
   ]

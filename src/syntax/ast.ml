@@ -21,5 +21,10 @@ type expr =
   | Raw of string
 [@@deriving sexp]
 
-let debug_str_of_expr expr =
+let pp_ast ast =
+  ast
+  |> sexp_of_expr
+  |> Sexp.to_string_hum ~indent: 2
+
+let to_string expr =
   Sexp.to_string (sexp_of_expr expr)

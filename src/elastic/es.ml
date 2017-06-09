@@ -2,7 +2,7 @@ open Yojson
 open Core_kernel.Std
 open Ast
 
-exception SyntaxError of string
+exception UnsupportedError of string
 
 type id = string [@@deriving sexp]
 
@@ -43,19 +43,19 @@ let rec from_ez = function
   | Scope (i, expr_r) -> Nested (i, from_ez expr_r)
   | Raw (json_str) -> Raw json_str
   | Not (expr) -> Bool (Must_not [from_ez expr])
-  | value -> raise (SyntaxError ("Unsupported value: " ^ Ast.debug_str_of_expr value))
+  | value -> raise (UnsupportedError ("Unsupported value: " ^ Ast.pp_ast value))
 
 and to_value = function
   | Ast.String s -> String s
   | Ast.Bool b -> Bool b
   | Ast.Int i -> Int i
   | Ast.Float f -> Float f
-  | value -> raise (SyntaxError ("Unsupported value: " ^ Ast.debug_str_of_expr value))
+  | value -> raise (UnsupportedError ("Unsupported value: " ^ Ast.pp_ast value))
 
 and to_number = function
   | Ast.Int i -> Int i
   | Ast.Float f -> Float f
-  | value -> raise (SyntaxError ("Unsupported value: " ^ Ast.debug_str_of_expr value))
+  | value -> raise (UnsupportedError ("Unsupported value: " ^ Ast.pp_ast value))
 
 let rec (to_json_ast : t -> Yojson.Basic.json) = function
   | Term (id, value) ->
