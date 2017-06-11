@@ -41,12 +41,12 @@ open Ast
 %%
 
 prog:
-	| e = expr; EOF { e }
+  | e = expr; EOF { e }
 	;
 
 expr:
-	| i = INT { Int i }
-	| x = ID { Var x }
+  | i = INT { Int i }
+  | x = ID { Var x }
   | f = FLOAT { Float f }
   | s = STRING { String s }
   | b = BOOL { Bool b }
