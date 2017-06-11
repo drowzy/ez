@@ -20,6 +20,7 @@ type value =
 
 type t =
   | Term of id * value
+  | Terms of id * value list
   | Range of id * string * number
   | Bool of bool_expr
   | Nested of id * t
@@ -43,6 +44,7 @@ let rec from_ez = function
   | Scope (i, expr_r) -> Nested (i, from_ez expr_r)
   | Raw (json_str) -> Raw json_str
   | Not (expr) -> Bool (Must_not [from_ez expr])
+  | In (Var id, vl) -> Terms (id, List.map ~f:to_value vl)
   | value -> raise (UnsupportedError ("Unsupported value: " ^ Ast.pp_ast value))
 
 and to_value = function
@@ -62,6 +64,12 @@ let rec (to_json_ast : t -> Yojson.Basic.json) = function
     `Assoc [
       "term", `Assoc [
         id, to_json_ast_value value
+      ]
+    ]
+  | Terms (id, vl) ->
+    `Assoc [
+      "terms", `Assoc [
+        id, `List (List.map ~f:to_json_ast_value vl)
       ]
     ]
   | Bool expr -> to_json_ast_bool expr
