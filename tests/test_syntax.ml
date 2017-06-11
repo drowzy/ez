@@ -21,6 +21,7 @@ let test_parse_lteq () = compare_expr "foo <= 10" (LTEQ (Var "foo", Int 10))
 let test_parse_gteq () = compare_expr "foo >= 10" (GTEQ (Var "foo", Int 10))
 let test_parse_scope () = compare_expr "foo { foo.bar == 10 }" (Scope ("foo", (EQ(Var "foo.bar", Int 10))))
 let test_parse_nested_scope () = compare_expr "foo { foo.bar { foo.bar.baz == 10}}" (Scope ("foo", (Scope ("foo.bar", EQ(Var "foo.bar.baz", Int 10)))))
+let test_parse_in () = compare_expr "foo in [10]" (In (Var "foo", [Int 10]))
 
 let tests = "Syntax" >::: [
   "parse_id" >:: test_parse_var;
@@ -34,4 +35,5 @@ let tests = "Syntax" >::: [
   "parse_gteq" >:: test_parse_gteq;
   "parse_scope" >:: test_parse_scope;
   "parse_nested_scope" >:: test_parse_nested_scope;
+  "parse_in_op" >:: test_parse_in;
 ]

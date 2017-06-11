@@ -12,6 +12,7 @@ type value =
 
 type t =
   | Term of id * value
+  | Terms of id * value list
   | Range of id * string * number
   | Bool of bool_expr
   | Nested of id * t

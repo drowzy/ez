@@ -8,11 +8,12 @@ open Ast
 %token <string> ID
 %token <string> STRING
 
-%token LPAREN RPAREN LBRACK RBRACK
+%token LPAREN RPAREN LBRACK RBRACK LBRACE RBRACE
 
 %token TRUE
 %token FALSE
 %token EXCLAIMATION
+%token COMMA
 %token EQ
 %token NEQ
 %token LT
@@ -21,6 +22,7 @@ open Ast
 %token GTEQ
 %token RAW
 
+%token IN
 %token AND
 %token OR
 %token EOF
@@ -29,6 +31,7 @@ open Ast
 %left OR
 
 %nonassoc EQ
+%nonassoc IN
 %nonassoc NEQ
 
 %nonassoc GT LT LTEQ GTEQ
@@ -47,19 +50,19 @@ expr:
   | f = FLOAT { Float f }
   | s = STRING { String s }
   | b = BOOL { Bool b }
-
   | TRUE { Bool true }
   | FALSE { Bool false}
-  | LPAREN expr RPAREN { $2 }
-  | id = ID LBRACK e = expr RBRACK { Scope(id, e)}
+  | LPAREN; e = expr RPAREN { e }
+  | id = ID LBRACK e = expr RBRACK { Scope(id, e) }
   | RAW s = STRING { Raw(s) }
-  | EXCLAIMATION expr { Not ($2) }
-  | expr AND expr { And ($1, $3) }
-  | expr OR expr { Or ($1, $3) }
-  | expr EQ expr { EQ ($1, $3) }
-  | expr NEQ expr { Not(EQ ($1, $3)) }
-  | expr LT expr { LT ($1, $3) }
-  | expr LTEQ expr { LTEQ ($1, $3) }
-  | expr GT expr { GT ($1, $3) }
-  | expr GTEQ expr { GTEQ ($1, $3) }
+  | EXCLAIMATION; e = expr { Not (e) }
+  | e = expr; IN; LBRACE; vl = separated_list(COMMA, expr); RBRACE { In (e, vl) }
+  | el = expr; AND; er = expr { And (el, er) }
+  | el = expr; OR; er = expr { Or (el, er) }
+  | el = expr; EQ; er = expr { EQ (el, er) }
+  | el = expr; NEQ; er = expr { Not(EQ (el, er)) }
+  | el = expr; LT; er = expr { LT (el, er) }
+  | el = expr; LTEQ; er = expr { LTEQ (el, er) }
+  | el = expr; GT; er = expr { GT (el, er) }
+  | el = expr; GTEQ; er = expr { GTEQ (el, er) }
 	;

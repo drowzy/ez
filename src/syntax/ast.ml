@@ -11,6 +11,7 @@ type expr =
   | String of string
   | And of expr * expr
   | Or of expr * expr
+  | In of expr * expr list
   | Not of expr
   | EQ of expr * expr
   | LT of expr * expr

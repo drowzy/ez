@@ -134,6 +134,7 @@ Expressions | Descriptions | Example
 ----------- | ------------ | -------
 `~r"json>"`  | The raw expr allows for inserting an arbitrary elastic json expression | `~r"{\"term:\" { \"foo\": 10 }}"`
 `<id> { expr }` | Creates a nested scope with `id` as the path. and the expr in the block will be a part of the nested query. | `foo { foo.bar == 10 }`
+`<id> in [<value>,<value>]` | is the identifier value in the array | `foo in [10, 20]`
 
 ### Examples
 Ez:
@@ -194,6 +195,23 @@ Elastic json:
 {
   "query": {
     "nested": { "path": "foo", "query": { "term": { "foo.bar": "bar" } } }
+  }
+}
+```
+Ez:
+```python
+foo in ["bar", "baz"]
+```
+Elastic json:
+```json
+{
+  "query": {
+    "terms": {
+      "foo": [
+        "bar",
+        "baz"
+      ]
+    }
   }
 }
 ```
