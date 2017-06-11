@@ -23,6 +23,7 @@ rule read =
   parse
   | white { read lexbuf }
   | newline { next_line lexbuf; read lexbuf }
+  | ','   { COMMA }
   | '('   { LPAREN }
   | ')'   { RPAREN }
   | '{'   { LBRACK }
@@ -42,6 +43,7 @@ rule read =
   | '>'  { GT }
   | ">=" { GTEQ }
   | "~r" { RAW }
+  | "in" { IN }
   | id    { ID (Lexing.lexeme lexbuf) }
   | int   { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | float { FLOAT (float_of_string (Lexing.lexeme lexbuf)) }
