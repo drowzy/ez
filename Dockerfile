@@ -13,7 +13,9 @@ WORKDIR /home/opam/ez
 RUN opam config exec -- make configure
 RUN opam config exec -- make
 
-FROM ocaml/ocaml:alpine-3.4
+FROM ocaml/ocaml:ubuntu-16.04
 
 COPY --from=0 /home/opam/ez/_build/src/compiler_service/ez_cs.native /ez_cs
+RUN chmod +x /ez_cs
 ENTRYPOINT ["/ez_cs"]
+CMD ["-v"]
