@@ -22,7 +22,6 @@ let allow_cors =
   in
   Rock.Middleware.create ~name:"allow_cors" ~filter
 
-
 let compile = put "/compile" begin fun req ->
     match Cohttp.Header.get (Request.headers req) "content-type" with
     | Some s when is_json s -> App.json_of_body_exn req >>= fun json ->
@@ -38,17 +37,18 @@ let compile = put "/compile" begin fun req ->
       `Json (Ez_target.to_response target) |> respond'
 end
 
-let proxy = put "/proxy" begin fun req ->
-    let proxy_url = req
-      |> query_params
-      |> List.map (fun pair -> ((fst pair), (List.hd (snd pair))))
-      |> List.hd in
-    let maybe_url = match proxy_url with
-      | (key, url) when key == "url" -> Some url
-      | _ -> None in
-    match maybe_url with
-      | Some url -> `String url |> respond'
-      | None -> respond' (`String "error")
+let proxy = put "/proxy/:url" begin fun req ->
+   App.json_of_body_exn req >>= fun json ->
+     let target  = json |> Ezjsonm.value |> Ez_target.from_req in
+     let uri  = "http" ^ (param req "url") ^ "/_search" |> Uri.of_string in
+     let req_body = Ez_target.(target.expr)
+                    |> Ez_target.to_elastic
+                    |> Es.to_string
+                    |> Cohttp_lwt_body.of_string in
+
+     Cohttp_lwt_unix.Client.post ~body:req_body uri >>= fun (resp, res_body) ->
+     res_body |> Cohttp_lwt_body.to_string >|= fun res ->
+     `String res |> Opium.Std.respond
 end
 
 let _ =

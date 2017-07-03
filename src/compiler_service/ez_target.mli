@@ -1,4 +1,7 @@
-type t
+type t = {
+  expr: Ast.expr;
+  debug: bool
+}
 (* parses a string to ast *)
 val to_ast : string -> Ast.expr
 (* from Ast to elastic dsl *)
