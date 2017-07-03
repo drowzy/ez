@@ -40,10 +40,12 @@ end
 let proxy = put "/proxy/:url" begin fun req ->
    App.json_of_body_exn req >>= fun json ->
      let target  = json |> Ezjsonm.value |> Ez_target.from_req in
-     let uri  = "http" ^ (param req "url") ^ "/_search" |> Uri.of_string in
+     let uri  = "http://" ^ (param req "url") ^ "/_search" |> Uri.of_string in
      let req_body = Ez_target.(target.expr)
                     |> Ez_target.to_elastic
-                    |> Es.to_string
+                    |> Es.to_json_ast
+                    |> Es.wrap_json "query"
+                    |> Es.json_to_string
                     |> Cohttp_lwt_body.of_string in
 
      Cohttp_lwt_unix.Client.post ~body:req_body uri >>= fun (resp, res_body) ->
