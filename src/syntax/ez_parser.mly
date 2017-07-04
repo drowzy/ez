@@ -14,6 +14,7 @@ open Ast
 %token FALSE
 %token EXCLAIMATION
 %token COMMA
+%token INLINE
 %token EQ
 %token NEQ
 %token LT
@@ -29,6 +30,7 @@ open Ast
 
 %left AND
 %left OR
+%left INLINE
 
 %nonassoc EQ
 %nonassoc IN
@@ -57,6 +59,7 @@ expr:
   | RAW s = STRING { Raw(s) }
   | EXCLAIMATION; e = expr { Not (e) }
   | e = expr; IN; LBRACE; vl = separated_list(COMMA, expr); RBRACE { In (e, vl) }
+  | el = expr; INLINE; er = expr { Inline (el, er) }
   | el = expr; AND; er = expr { And (el, er) }
   | el = expr; OR; er = expr { Or (el, er) }
   | el = expr; EQ; er = expr { EQ (el, er) }

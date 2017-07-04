@@ -40,6 +40,7 @@ rule read =
   | "!=" { NEQ }
   | '<'  { LT }
   | "<=" { LTEQ }
+  | "<-" { INLINE }
   | '>'  { GT }
   | ">=" { GTEQ }
   | "~r" { RAW }
