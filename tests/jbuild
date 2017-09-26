@@ -1,0 +1,14 @@
+(executables
+ (
+  (names (main))
+  (libraries (ez oUnit))
+ )
+)
+
+(alias
+ (
+  (name    runtest)
+  (deps    (main.exe))
+  (action  (run ${<}))
+ )
+)

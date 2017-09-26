@@ -1,6 +1,8 @@
 _build
 *.byte
 *.native
+*.merlin
+*.install
 docs.tmp
 setup.log
 setup.data
