@@ -1,1 +1,1 @@
-val req_log : Opium_kernel.Rock.Middleware.t
+val req_log : Opium.Std.Rock.Middleware.t

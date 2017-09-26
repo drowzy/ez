@@ -29,14 +29,6 @@ Executable ez
   BuildDepends: core_kernel, cmdliner, yojson, syntax, elastic
   MainIs:     ez.ml
 
-Executable ez_compiler_service
-  Build$: !os_type(Win32)
-  Path:       src/compiler_service
-  BuildTools: ocamlbuild
-  CompiledObject: best
-  BuildDepends: core_kernel, yojson, syntax, elastic, opium.unix
-  MainIs:     ez_cs.ml
-
 Executable test_syntax
   Install: false
   BuildTools: ocamlbuild

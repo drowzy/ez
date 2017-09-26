@@ -1,4 +1,4 @@
-open Opium_kernel.Rock
+open Opium.Std.Rock
 open Lwt.Infix
 
 let get_status_code res =
