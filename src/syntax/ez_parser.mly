@@ -59,7 +59,7 @@ expr:
   | RAW s = STRING { Raw(s) }
   | EXCLAIMATION; e = expr { Not (e) }
   | e = expr; IN; LBRACE; vl = separated_list(COMMA, expr); RBRACE { In (e, vl) }
-  | el = expr; INLINE; e_list = separated_list(COMMA, expr) { Inline (el, e_list) }
+  | el = expr; INLINE; e_list = expr { Inline (el, e_list) }
   | el = expr; AND; er = expr { And (el, er) }
   | el = expr; OR; er = expr { Or (el, er) }
   | el = expr; EQ; er = expr { EQ (el, er) }
