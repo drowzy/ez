@@ -93,13 +93,13 @@ let test_parse_ez_inline () = compare_expr
     (Ast.Inline
        (
          Ast.EQ (Ast.Var "foo", Ast.Int 10),
-         Ast.EQ (Ast.Var "bar", Ast.Int 10)
+         [Ast.EQ (Ast.Var "bar", Ast.Int 10)]
        )
      )
      (Es.Adjecent
         (
           Es.Term ("foo", Es.Int 10),
-          Es.Term ("bar", Es.Int 10)
+          [Es.Term ("bar", Es.Int 10)]
         )
      )
 let test_parse_ez_raw () = compare_expr (Ast.Raw "foo") (Es.Raw "foo")

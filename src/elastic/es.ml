@@ -25,7 +25,7 @@ type t =
   | Bool of bool_expr
   | Nested of id * t
   | Raw of string
-  | Adjecent of t * t
+  | Adjecent of t * t list
   [@@deriving sexp]
 
 and bool_expr =
@@ -46,7 +46,7 @@ let rec from_ez = function
   | Raw (json_str) -> Raw json_str
   | Not (expr) -> Bool (Must_not [from_ez expr])
   | In (Var id, vl) -> Terms (id, List.map ~f:to_value vl)
-  | Inline(expr_l, expr_r) -> Adjecent (from_ez expr_l, from_ez expr_r)
+  | Inline(expr_l, expr_r) -> Adjecent (from_ez expr_l, List.map ~f:from_ez expr_r)
   | value -> raise (UnsupportedError ("Unsupported value: " ^ Ast.pp_ast value))
 
 and to_value = function
@@ -91,7 +91,7 @@ let rec (to_json_ast : t -> Yojson.Basic.json) = function
       ]
     ]
   | Raw json_str -> Yojson.Basic.from_string json_str
-  | Adjecent (expr_l, expr_r) -> Yojson.Basic.Util.combine (to_json_ast expr_l) (to_json_ast expr_r)
+  | Adjecent (expr_l, expr_r) -> Yojson.Basic.Util.combine (to_json_ast expr_l) (`List (List.map ~f:to_json_ast expr_r))
 and to_json_ast_bool expr =
   let bool_expr = match expr with
   | Must list_t -> ("must", list_t)

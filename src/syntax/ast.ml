@@ -12,7 +12,7 @@ type expr =
   | And of expr * expr
   | Or of expr * expr
   | In of expr * expr list
-  | Inline of expr * expr
+  | Inline of expr * expr list
   | Not of expr
   | EQ of expr * expr
   | LT of expr * expr

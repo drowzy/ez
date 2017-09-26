@@ -17,7 +17,7 @@ type t =
   | Bool of bool_expr
   | Nested of id * t
   | Raw of string
-  | Adjecent of t * t
+  | Adjecent of t * t list
 and bool_expr =
   | Must of t list
   | Should of t list
