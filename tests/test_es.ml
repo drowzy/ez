@@ -1,8 +1,10 @@
 open OUnit
-open Es
+
+module Es = Ez.Es
+module Ast = Ez.Ast
 
 let compare_expr expr expected =
-  let parsed = Es.from_ez expr in
+  let parsed = Ez.Es.from_ez expr in
   assert_equal parsed expected
 
 let test_parse_ez_eq () = compare_expr (Ast.EQ (Ast.Var "foo", Ast.Int 10)) (Es.Term ("foo", Es.Int 10))

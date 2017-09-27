@@ -1,0 +1,13 @@
+(jbuild_version 1)
+
+(ocamllex (ez_lexer))
+(menhir ((modules (ez_parser))))
+
+(library
+ ((name        ez)
+  (public_name ez)
+  (libraries   (core_kernel yojson))
+  (preprocess (pps (ppx_jane)))
+  (synopsis    "Ez -> Es compiler")
+ )
+)

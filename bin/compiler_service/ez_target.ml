@@ -1,10 +1,16 @@
+module Ast = Ez.Ast
+module Es = Ez.Es
+module Parser = Ez.Parser
+module Lexer = Ez.Lexer
+
+
 type t = {expr: Ast.expr; debug: bool;}
 
 let to_ast str =
   (Lwt_log.ign_info_f "%s " str);
   str
   |> Lexing.from_string
-  |> Ez_parser.prog Ez_lexer.read
+  |> Parser.prog Lexer.read
 
 let to_elastic ast =
   ast

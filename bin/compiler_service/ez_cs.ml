@@ -1,6 +1,8 @@
 open Opium.Std
 open Lwt.Infix
 
+module Es = Ez.Es
+
 let is_json s = s |> String.lowercase_ascii |> String.equal "application/json"
 
 let query_params req = req |> Request.uri |> Uri.query
