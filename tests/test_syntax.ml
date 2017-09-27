@@ -1,10 +1,10 @@
 open OUnit
-open Ast
+open Ez.Ast
 
 let parse_expr expr =
   expr
   |> Lexing.from_string
-  |> Ez_parser.prog Ez_lexer.read
+  |> Ez.Parser.prog Ez.Lexer.read
 
 let compare_expr expr expected =
   let parsed = parse_expr expr in
