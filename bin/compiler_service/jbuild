@@ -1,0 +1,6 @@
+(jbuild_version 1)
+
+(executable
+ ((name ez_cs)
+  (libraries (core_kernel opium ez lwt))
+ ))

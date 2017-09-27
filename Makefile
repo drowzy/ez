@@ -2,8 +2,8 @@
 
 build:
 	jbuilder build @install
-	jbuilder build bin/main.exe
-
+	jbuilder build bin/cli/main.exe
+	jbuilder build bin/compiler_service/ez_cs.exe
 deps:
 	jbuilder external-lib-deps --missing @install
 clean:
