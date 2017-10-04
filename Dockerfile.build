@@ -1,14 +1,14 @@
 FROM ocaml/opam:ubuntu-16.04_ocaml-4.04.0
 
-ENV OPAM_PKGS ocamlfind ocamlbuild oasis core_kernel menhir cmdliner yojson ounit opium
+ENV OPAM_PKGS ocamlfind ocamlbuild jbuilder core_kernel menhir cmdliner yojson ounit opium
 USER opam
 ENV TERM xterm
 
-RUN opam config exec -- opam install $OPAM_PKGS
+RUN opam config exec -- opam update
+RUN opam config exec -- opam depext -i $OPAM_PKGS
 
 ADD . ez
 RUN sudo chown -R opam.nogroup /home/opam/ez
 WORKDIR /home/opam/ez
 
-RUN opam config exec -- make configure
 RUN opam config exec -- make

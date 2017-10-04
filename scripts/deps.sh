@@ -1,1 +1,1 @@
-opam install ounit oasis -y
+opam install ounit jbuilder -y

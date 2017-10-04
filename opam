@@ -6,13 +6,13 @@ authors: "Simon Thörnqvist <simon@plug-n-trade.com>"
 homepage: "http://github.com"
 license: "MIT"
 build: [
-  [make "configure"]
   [make]
 ]
 install: [make]
 remove: ["ocamlfind" "remove" "ez"]
 depends: [
   "ocamlfind" {build}
+  "jbuilder" {build}
   "cmdliner"
   "core_kernel"
   "menhir"
