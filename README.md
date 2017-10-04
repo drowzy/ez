@@ -25,11 +25,22 @@ A less verbose dsl for elasticsearch
 ```
 
 ## Building
+### Docker
+This package defines two `Dockerfiles` one for the compiler service & one for the cli.
 
-This package uses OASIS to generate its build system. See section OASIS for
-full information.
+* CLI
+Builds an ubuntu compatible cli
+```bash
+docker build -t ez-cli -f Dockerfile.build
+docker cp ez-cli:/home/opam/ez/_build/default/bin/main.exe ./_build/ez
+```
+* Compiler service
+```bash
+docker build -t ez-compiler .
+docker run --rm -p 3000:3000 ez-compiler
+```
 
-### Dependencies
+### Local
 
 In order to compile this package, you will need:
 
@@ -39,36 +50,36 @@ In order to compile this package, you will need:
 * menhirLib
 * core_kernel
 * cmdliner
+* opium
 
+* Install dependncies:
 The easiest way is to create a local switch, pin the package and install the dependencies specified in the opam file:
+
 ```bash
 opam switch install ez_switch -A 4.04.1
 opam pin add ez . --no-action
 opam install ez --deps-only
-# Oasis & oUnit is required for development so run the deps.sh script to
+# Jbuilder & oUnit is required for development so run the deps.sh script to
 # install them
 ./deps.sh
 ```
 
-### Tests
-
-Tests are turned off by default, they can be enabled with:
+* Compile:
 
 ```bash
-ocaml setup.ml -configure --enable-tests
+make
+```
+
+### Tests
+
+```bash
+make test
 ```
 
 After that it's just a matter of running `make test` to run the suite
 
 
 ### Installing
-
-1. Uncompress the source archive and go to the root of the package
-2. Run `ocaml setup.ml -configure`
-3. Run `ocaml setup.ml -build`
-4. Run `ocaml setup.ml -install`
-
-or with `make`
 
 ```bash
 make
@@ -77,15 +88,9 @@ make install
 ```
 
 ### Uninstalling
-
-1. Go to the root of the package
-2. Run 'ocaml setup.ml -uninstall'
-
-### OASIS
-
-OASIS is a program that generates a setup.ml file using a simple '_oasis'
-configuration file. The generated setup only depends on the standard OCaml
-installation: no additional library is required.
+```bash
+make uninstall
+```
 
 ## Usage
 
@@ -253,20 +258,80 @@ Elastic json:
   }
 }
 ```
+
+Inlining:
+
+```python
+(foo { foo.bar == 10 } and ~r"{ \"term\": { \"bar\": 10 } }") <- ~r"{ \"source\": false, \"size\": 100 }"
+```
+```json
+{
+  "bool": {
+    "must": [
+      {
+        "nested": {
+          "path": "foo",
+          "query": {
+            "term": {
+              "foo.bar": 10
+            }
+          }
+        }
+      },
+      {
+        "term": {
+          "bar": 10
+        }
+      }
+    ]
+  },
+  "source": false,
+  "size": 100
+}
+```
 ## CURL example
 ```bash
 ez -q 'documentViews.entityType == 1004' | \
 curl -H "Content-Type: application/json" -X POST -d @- http://localhost:9200/ordercontainerviews/ordercontainerview/_search
 ```
-## AST
-* TODO
-
-## Compiler backends
-* Elasticsearch JSON DSL
-
 ## Compiler service
 
 The `ez_cs` binary is compiler service over HTTP
+
+## Endpoints
+
+* Compile using json:
+```http
+PUT http://localhost:3000/compile
+Content-Type: application/json
+{
+  "expr": "foo { foo.bar == \"baz\" }",
+  "debug": true
+}
+```
+* Compile using plain/text
+```http
+PUT http://localhost:4000/compile
+Content-Type: text/plain
+foo { foo.bar == "baz"}
+```
+
+* Compile & proxy to instance
+The path needs to be url encoded in order to work properly so
+
+`http://localhost:3000/proxy/localhost:9200/index/type` becomes: `http://localhost:3000/proxy/localhost%3A9200%2Findex%2Ftype`
+
+The compiler service adds the `_search` part to the provided path
+
+```http
+PUT http://localhost:3000/proxy/localhost%3A9200%2Findex%2Ftype
+Content-Type: application/json
+
+{
+  "expr": "foo { foo.bar == 1004 }",
+  "debug": true
+}
+```
 
 See `ez_cs --help` for flags & options
 ### Running
@@ -275,7 +340,8 @@ See `ez_cs --help` for flags & options
 ```
 The verbose flag will print request/response information to stdout.
 
-### Routes
+## AST
+* TODO
 
-1 Routes:
-`> /compile (PUT)`
+## Compiler backends
+* Elasticsearch JSON DSL
