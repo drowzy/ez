@@ -7,12 +7,12 @@ let compare_expr expr expected =
   let parsed = Ez.Es.from_ez expr in
   assert_equal parsed expected
 
-let test_parse_ez_eq () = compare_expr (Ast.EQ (Ast.Var "foo", Ast.Int 10)) (Es.Term ("foo", Es.Int 10))
-let test_parse_ez_in () = compare_expr (Ast.In (Ast.Var "foo", [Ast.Int 10])) (Es.Terms ("foo", [Es.Int 10]))
+let test_parse_ez_eq () = compare_expr (Ast.EQ ("foo", Ast.Int 10)) (Es.Term ("foo", Es.Int 10))
+let test_parse_ez_in () = compare_expr (Ast.In ("foo", [Ast.Int 10])) (Es.Terms ("foo", [Es.Int 10]))
 let test_parse_ez_and () = compare_expr
     (Ast.And
-       (Ast.EQ (Ast.Var "foo", Ast.Int 10),
-        Ast.EQ (Ast.Var "foo", Ast.Int 10))
+       (Ast.EQ ("foo", Ast.Int 10),
+        Ast.EQ ("foo", Ast.Int 10))
     )
     (Bool
        (Es.Must [
@@ -24,8 +24,8 @@ let test_parse_ez_and () = compare_expr
 
 let test_parse_ez_or () = compare_expr
     (Ast.Or
-       (Ast.EQ (Ast.Var "foo", Ast.Int 10),
-        Ast.EQ (Ast.Var "foo", Ast.Int 10))
+       (Ast.EQ ("foo", Ast.Int 10),
+        Ast.EQ ("foo", Ast.Int 10))
     )
     (Es.Bool
        (Es.Should [
@@ -38,7 +38,7 @@ let test_parse_ez_or () = compare_expr
 let test_parse_ez_not_eq () = compare_expr
     (Ast.Not
        (Ast.EQ
-          (Ast.Var "foo", Ast.Int 10)
+          ("foo", Ast.Int 10)
        )
     )
     (Es.Bool
@@ -50,7 +50,7 @@ let test_parse_ez_not_eq () = compare_expr
 
 let test_parse_ez_lt () = compare_expr
     (Ast.LT
-      (Ast.Var "foo", Ast.Int 10)
+      ("foo", Ast.Int 10)
     )
     (Es.Range
        ("foo", "lt", Es.Int 10)
@@ -58,7 +58,7 @@ let test_parse_ez_lt () = compare_expr
 
 let test_parse_ez_lteq () = compare_expr
     (Ast.LTEQ
-      (Ast.Var "foo", Ast.Int 10)
+      ("foo", Ast.Int 10)
     )
     (Es.Range
        ("foo", "lteq", Es.Int 10)
@@ -66,7 +66,7 @@ let test_parse_ez_lteq () = compare_expr
 
 let test_parse_ez_gt () = compare_expr
     (Ast.GT
-      (Ast.Var "foo", Ast.Int 10)
+      ("foo", Ast.Int 10)
     )
     (Es.Range
        ("foo", "gt", Es.Int 10)
@@ -74,7 +74,7 @@ let test_parse_ez_gt () = compare_expr
 
 let test_parse_ez_gteq () = compare_expr
     (Ast.GTEQ
-      (Ast.Var "foo", Ast.Int 10)
+      ("foo", Ast.Int 10)
     )
     (Es.Range
        ("foo", "gteq", Es.Int 10)
@@ -83,7 +83,7 @@ let test_parse_ez_gteq () = compare_expr
 let test_parse_ez_scope () = compare_expr
     (Ast.Scope
        ("foo", (Ast.EQ
-                  (Ast.Var "foo", Ast.Int 10)
+                  ("foo", Ast.Int 10)
                )
        )
     )
@@ -94,8 +94,8 @@ let test_parse_ez_scope () = compare_expr
 let test_parse_ez_inline () = compare_expr
     (Ast.Inline
        (
-         Ast.EQ (Ast.Var "foo", Ast.Int 10),
-         Ast.EQ (Ast.Var "bar", Ast.Int 10)
+         Ast.EQ ("foo", Ast.Int 10),
+         Ast.EQ ("bar", Ast.Int 10)
        )
      )
      (Es.Adjecent

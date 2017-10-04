@@ -46,26 +46,27 @@ prog:
   | e = expr; EOF { e }
 	;
 
-expr:
+ty:
   | i = INT { Int i }
-  | x = ID { Var x }
   | f = FLOAT { Float f }
   | s = STRING { String s }
   | b = BOOL { Bool b }
   | TRUE { Bool true }
   | FALSE { Bool false}
+
+expr:
   | LPAREN; e = expr RPAREN { e }
   | id = ID LBRACE e = expr RBRACE { Scope(id, e) }
   | RAW s = STRING { Raw(s) }
   | EXCLAIMATION; e = expr { Not (e) }
-  | e = expr; IN; LBRACK; vl = separated_list(COMMA, expr); RBRACK { In (e, vl) }
+  | e = ID; IN; LBRACK; vl = separated_list(COMMA, ty); RBRACK { In (e, vl) }
   | el = expr; INLINE; e_list = expr { Inline (el, e_list) }
   | el = expr; AND; er = expr { And (el, er) }
   | el = expr; OR; er = expr { Or (el, er) }
-  | el = expr; EQ; er = expr { EQ (el, er) }
-  | el = expr; NEQ; er = expr { Not(EQ (el, er)) }
-  | el = expr; LT; er = expr { LT (el, er) }
-  | el = expr; LTEQ; er = expr { LTEQ (el, er) }
-  | el = expr; GT; er = expr { GT (el, er) }
-  | el = expr; GTEQ; er = expr { GTEQ (el, er) }
+  | el = ID; EQ; er = ty { EQ (el, er) }
+  | el = ID; NEQ; er = ty { Not(EQ (el, er)) }
+  | el = ID; LT; er = ty { LT (el, er) }
+  | el = ID; LTEQ; er = ty { LTEQ (el, er) }
+  | el = ID; GT; er = ty { GT (el, er) }
+  | el = ID; GTEQ; er = ty { GTEQ (el, er) }
 	;
