@@ -26,10 +26,10 @@ rule read =
   | ','   { COMMA }
   | '('   { LPAREN }
   | ')'   { RPAREN }
-  | '{'   { LBRACK }
-  | '}'   { RBRACK }
-  | '['   { LBRACE }
-  | ']'   { RBRACE }
+  | '{'   { LBRACE }
+  | '}'   { RBRACE }
+  | '['   { LBRACK }
+  | ']'   { RBRACK }
   | "true" { TRUE }
   | "false" { FALSE }
   | "and" { AND }

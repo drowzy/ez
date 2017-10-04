@@ -55,10 +55,10 @@ expr:
   | TRUE { Bool true }
   | FALSE { Bool false}
   | LPAREN; e = expr RPAREN { e }
-  | id = ID LBRACK e = expr RBRACK { Scope(id, e) }
+  | id = ID LBRACE e = expr RBRACE { Scope(id, e) }
   | RAW s = STRING { Raw(s) }
   | EXCLAIMATION; e = expr { Not (e) }
-  | e = expr; IN; LBRACE; vl = separated_list(COMMA, expr); RBRACE { In (e, vl) }
+  | e = expr; IN; LBRACK; vl = separated_list(COMMA, expr); RBRACK { In (e, vl) }
   | el = expr; INLINE; e_list = expr { Inline (el, e_list) }
   | el = expr; AND; er = expr { And (el, er) }
   | el = expr; OR; er = expr { Or (el, er) }

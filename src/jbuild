@@ -1,7 +1,10 @@
 (jbuild_version 1)
 
 (ocamllex (ez_lexer))
-(menhir ((modules (ez_parser))))
+(menhir
+ ((flags (--explain))
+ (modules (ez_parser)))
+ )
 
 (library
  ((name        ez)
