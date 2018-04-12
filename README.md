@@ -289,11 +289,6 @@ Inlining:
   "size": 100
 }
 ```
-## CURL example
-```bash
-ez -q 'documentViews.entityType == 1004' | \
-curl -H "Content-Type: application/json" -X POST -d @- http://localhost:9200/ordercontainerviews/ordercontainerview/_search
-```
 ## Compiler service
 
 The `ez_cs` binary is compiler service over HTTP
@@ -339,9 +334,3 @@ See `ez_cs --help` for flags & options
 ./ez_cs --verbose --debug --port 5000 [3000]
 ```
 The verbose flag will print request/response information to stdout.
-
-## AST
-* TODO
-
-## Compiler backends
-* Elasticsearch JSON DSL
